@@ -22,8 +22,8 @@ function Axis() {
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  const x = d3.scaleLinear().domain([0, width]);
-  const y = d3.scaleLinear().domain([height, 0]);
+  const x = d3.scaleLinear().domain([0, width]).range([0, width]);
+  const y = d3.scaleLinear().domain([height, 0]).range([height, 0]);
 
   const xAxis = d3.axisBottom(x).ticks(10).tickSize(-height).tickPadding(10);
   const yAxis = d3.axisRight(x).ticks(10).tickSize(width).tickPadding(-10);
@@ -36,6 +36,22 @@ function Axis() {
 
   svg.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x).ticks(10));
   svg.append("g").call(d3.axisLeft(y).ticks(10));
+
+  draw();
+  function draw() {
+    svg
+      .selectAll(".points")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("class", "circle")
+      .attr("cx", (d) => d.x)
+      .attr("cy", (d) => d.y)
+      .attr("r", "3")
+      .style("stroke", "blue");
+
+    console.log(data);
+  }
 
   return (
     <>
