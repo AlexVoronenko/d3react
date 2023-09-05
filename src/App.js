@@ -1,6 +1,7 @@
 import "./App.css";
 import ReadJSON from "./Modules/ReadJSON";
 import Axis from "./Modules/Axis";
+import ToolTips from "./Modules/ToolTips";
 import { useState } from "react";
 
 const data = [
@@ -10,8 +11,9 @@ const data = [
 ];
 
 function App() {
-  const [valueAxis, setValueAxis] = useState("");
   const [valueJSON, setValueJSON] = useState("");
+  const [valueAxis, setValueAxis] = useState("");
+  const [valueToolTips, setToolTips] = useState("");
 
   const handleChangeJSON = (valueJSON) => {
     setValueJSON(valueJSON);
@@ -19,6 +21,10 @@ function App() {
 
   const handleChangeAxis = (event) => {
     setValueAxis(data);
+  };
+
+  const handleChangeToolTips = (event) => {
+    setToolTips(data);
   };
 
   return (
@@ -32,7 +38,14 @@ function App() {
       <button type="button" onClick={handleChangeAxis}>
         (App): Нарисовать оси Axis (передача данных parent-child)
       </button>
-      <Axis data={valueAxis} />
+      <Axis axisData={valueAxis} />
+      <hr />
+      <div>
+        <button type="button" onClick={handleChangeToolTips}>
+          (App): Отобразить ToolTips на точках
+        </button>
+        <ToolTips toolTipData={valueToolTips}></ToolTips>
+      </div>
     </>
   );
 }

@@ -2,7 +2,8 @@ import * as d3 from "d3";
 import "./css/axisCss.css";
 
 function Axis(props) {
-  let data = props.data;
+  let data = props.axisData;
+  console.log("props.axisData", data);
   const aspectRatio = 1920 / 1080;
   const canvasHeight = 600;
   const canvasWidth = canvasHeight * aspectRatio;
@@ -24,7 +25,7 @@ function Axis(props) {
 
   const svg = d3
     .select(".canvas")
-    .attr("class", "classSvg")
+    .attr("class", "classAxis")
     .append("svg")
     .attr("width", canvasWidth)
     .attr("height", canvasHeight)
