@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import "./css/axisCss.css";
+import ReactFauxDOM from "react-faux-dom";
 
 function Axis(props) {
   let data = props.axisData;
@@ -23,9 +24,10 @@ function Axis(props) {
   let translateX = width / 2;
   let translateY = height / 2;
 
+  const fauxAxis = new ReactFauxDOM.Element("div", ".chart");
   const svg = d3
-    .select(".canvas")
-    .attr("class", "classAxis")
+    .select(fauxAxis)
+    // .attr("class", "classAxis")
     .append("svg")
     .attr("width", canvasWidth)
     .attr("height", canvasHeight)
@@ -103,6 +105,7 @@ function Axis(props) {
   return (
     <>
       <h1>Axis component</h1>
+      <div>{fauxAxis.toReact()}</div>
       <div className="canvas"></div>
     </>
   );

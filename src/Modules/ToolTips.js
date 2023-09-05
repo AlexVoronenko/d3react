@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import ReactFauxDOM from "react-faux-dom";
 
 function ToolTips(props) {
   let data = props.toolTipData;
@@ -13,9 +14,9 @@ function ToolTips(props) {
   let translateX = width / 2;
   let translateY = height / 2;
 
+  const fauxAxis = new ReactFauxDOM.Element("div", ".toolTip");
   const svgToolTips = d3
-    .select(".toolTipCanvas")
-    .attr("class", "classToolTip")
+    .select(fauxAxis)
     // .attr("id", "tooltip")
     .append("svg")
     .attr("width", canvasWidth)
@@ -42,6 +43,8 @@ function ToolTips(props) {
     <>
       <h1>ToolTips</h1>
       <div className="toolTipCanvas"></div>
+
+      <div>{fauxAxis.toReact()}</div>
     </>
   );
 }
