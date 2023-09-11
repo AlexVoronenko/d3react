@@ -1,7 +1,9 @@
 import "./App.css";
 import ReadJSON from "./Modules/ReadJSON";
 import Axis from "./Modules/Axis";
-import ToolTips from "./Modules/ToolTips";
+import ToolTips1 from "./Modules/ToolTips1";
+import ToolTips2 from "./Modules/ToolTips2";
+import ToolTips3 from "./Modules/ToolTips3";
 import { useState } from "react";
 
 const data = [
@@ -13,7 +15,9 @@ const data = [
 function App() {
   const [valueJSON, setValueJSON] = useState("");
   const [valueAxis, setValueAxis] = useState("");
-  const [valueToolTips, setToolTips] = useState("");
+  const [valueToolTips1, setToolTips1] = useState("");
+  const [valueToolTips2, setToolTips2] = useState("");
+  const [valueToolTips3, setToolTips3] = useState("");
 
   const handleChangeJSON = (valueJSON) => {
     setValueJSON(valueJSON);
@@ -23,8 +27,14 @@ function App() {
     setValueAxis(data);
   };
 
-  const handleChangeToolTips = (event) => {
-    setToolTips(data);
+  const handleChangeToolTips1 = (event) => {
+    setToolTips1(data);
+  };
+  const handleChangeToolTips2 = (event) => {
+    setToolTips2(data);
+  };
+  const handleChangeToolTips3 = (event) => {
+    setToolTips3(data);
   };
 
   return (
@@ -41,10 +51,22 @@ function App() {
       <Axis axisData={valueAxis} />
       <hr />
       <div>
-        <button type="button" onClick={handleChangeToolTips}>
-          (App): Отобразить ToolTips на точках
+        <button type="button" onClick={handleChangeToolTips1}>
+          (App): Отобразить ToolTips1(на html-div окне) на точках (не работает)
         </button>
-        <ToolTips toolTipData={valueToolTips}></ToolTips>
+        <ToolTips1 toolTipData={valueToolTips1}></ToolTips1>
+      </div>
+      <div>
+        <button type="button" onClick={handleChangeToolTips2}>
+          (App): Отобразить ToolTips2(простой .append("title")) на точках
+        </button>
+        <ToolTips2 toolTipData={valueToolTips2} />
+      </div>
+      <div>
+        <button type="button" onClick={handleChangeToolTips3}>
+          (App): Отобразить ToolTips3(npm i tippy.js) на точках
+        </button>
+        <ToolTips3 toolTipData={valueToolTips3} />
       </div>
     </>
   );

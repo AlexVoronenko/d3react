@@ -4,6 +4,7 @@ import ReactFauxDOM from "react-faux-dom";
 
 function Axis(props) {
   let data = props.axisData;
+  if (data === "") return;
   console.log("props.axisData", data);
   const aspectRatio = 1920 / 1080;
   const canvasHeight = 600;
