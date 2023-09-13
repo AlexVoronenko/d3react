@@ -4,6 +4,7 @@ import Axis from "./Modules/Axis";
 import ToolTips1 from "./Modules/ToolTips1";
 import ToolTips2 from "./Modules/ToolTips2";
 import ToolTips3 from "./Modules/ToolTips3";
+import Chart from "./Modules/Chart";
 import { useState } from "react";
 
 const data = [
@@ -18,6 +19,7 @@ function App() {
   const [valueToolTips1, setToolTips1] = useState("");
   const [valueToolTips2, setToolTips2] = useState("");
   const [valueToolTips3, setToolTips3] = useState("");
+  const [newData, setData] = useState("");
 
   const handleChangeJSON = (valueJSON) => {
     setValueJSON(valueJSON);
@@ -35,6 +37,10 @@ function App() {
   };
   const handleChangeToolTips3 = (event) => {
     setToolTips3(data);
+  };
+
+  const changeDataComponent = (e) => {
+    setData(data);
   };
 
   return (
@@ -67,6 +73,10 @@ function App() {
           (App): Отобразить ToolTips3(npm i tippy.js) на точках
         </button>
         <ToolTips3 toolTipData={valueToolTips3} />
+      </div>
+      <div>
+        <button onClick={changeDataComponent}></button>
+        <Chart data={newData} />
       </div>
     </>
   );
