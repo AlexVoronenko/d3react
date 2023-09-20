@@ -76,7 +76,7 @@ function App() {
       </div>
       <div>
         <button onClick={changeDataComponent}></button>
-        <Chart data={newData} />
+        <Chart data={newData} width={800} />
       </div>
     </>
   );

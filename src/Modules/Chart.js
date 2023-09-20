@@ -24,7 +24,6 @@ class Chart extends React.Component {
   renderD3() {
     let data = this.props.data;
     let faux = this.props.connectFauxDOM("div", "chart");
-
     let svgDoc = d3.select(faux).append("svg");
     svgDoc.append("text").attr("x", 50).attr("y", 50).text("text");
   }
@@ -55,7 +54,7 @@ class Chart extends React.Component {
 
     this.props.animateFauxDOM(800);
 
-    d3.select("text").text(this.props.title);
+    d3.select("text").text(this.props.width);
   }
 }
 
