@@ -13,6 +13,7 @@
     "react-faux-dom": "^4.5.0",
     "react-scripts": "^5.0.1",
     "react-tippy": "^1.4.0",
+    "resize-observer-polyfill": "^1.5.1",
     "tippy.js": "^6.3.7",
     "web-vitals": "^2.1.4"
   },

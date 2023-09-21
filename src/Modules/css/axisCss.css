@@ -9,10 +9,12 @@
 
 .x-axis line {
   stroke-opacity: 0.1;
+  overflow: visible;
 }
 
 .y-axis line {
   stroke-opacity: 0.2;
+  overflow: visible;
 }
 
 .axis text {

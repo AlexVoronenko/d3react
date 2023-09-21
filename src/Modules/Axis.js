@@ -1,30 +1,44 @@
 import React from "react";
-import { useRef, useEffect } from "react";
-import { select, scaleLinear, axisBottom, axisLeft } from "d3";
-import "./css/axisCss.css";
+import { useRef, useEffect, useState } from "react";
+import { select, scaleLinear, axisBottom, axisLeft, zoom } from "d3";
+// import "./css/axisCss.css";
 
 function Axis(props) {
   const svgRef = useRef();
 
+  const [currentZoomState, setCurrentZoomState] = useState();
   // let data = props.axisData;
   // if (data === "") return;
   // console.log("props.axisData", data);
-  const aRatio = 1920 / 1080;
-  const canvasHeight = 300;
-  const canvasWidth = canvasHeight * aRatio;
-  const margin = { top: 10, right: 20, bottom: 30, left: 20 };
-  const height = canvasHeight - margin.top - margin.bottom;
-  const width = canvasWidth - margin.left - margin.right;
-
-  let scaleSvg = height / 50 / 2;
-  let domainSize = height / (2 * scaleSvg);
 
   useEffect(() => {
+    const aRatio = 1920 / 1080;
+    const canvasHeight = 300;
+    const canvasWidth = canvasHeight * aRatio;
+    const margin = { top: 10, right: 20, bottom: 30, left: 30 };
+    const height = canvasHeight - margin.top - margin.bottom;
+    const width = canvasWidth - margin.left - margin.right;
+
+    let scaleSvg = height / 50 / 2;
+    let domainSize = height / (2 * scaleSvg);
+
     const svg = select(svgRef.current);
-    const x = scaleLinear().range([0, width]);
-    x.domain([-domainSize, domainSize]);
-    const y = scaleLinear().range([0, height]);
-    y.domain([-domainSize / aRatio, domainSize / aRatio]);
+    // const xScale = scaleLinear().range([10, 300]).domain([-100, 100]);
+    const xScale = scaleLinear()
+      .domain([0, 200])
+      .range([10, width - 10]);
+    const yScale = scaleLinear().range([0, height]).domain([-40, 40]);
+
+    if (currentZoomState) {
+      const newXScale = currentZoomState.rescaleX(xScale);
+      const newYScale = currentZoomState.rescaleY(yScale);
+      console.log(xScale.domain());
+      console.log(newXScale.domain());
+      console.log(yScale.domain());
+      console.log(newYScale.domain());
+      xScale.domain(newXScale.domain());
+      yScale.domain(newYScale.domain());
+    }
 
     // let scaleSvg = height / 2;
     let translateX = width / 2;
@@ -36,18 +50,22 @@ function Axis(props) {
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
     const ticksCount = 10;
-    const xAxis = axisBottom(x).ticks(ticksCount).tickSize(-height).tickPadding(10);
-    const yAxis = axisLeft(y)
-      .ticks(ticksCount / aRatio)
-      .tickSize(-width)
-      .tickPadding(5);
+    // const xAxis = axisBottom(xScale);
+    // .ticks(ticksCount).tickSize(-height).tickPadding(10);
+    const yAxis = axisLeft(yScale);
+    // .ticks(ticksCount / aRatio)
+    // .tickSize(-width)
+    // .tickPadding(5);
 
-    svg
-      .select(".x-axis")
-      .attr("transform", `translate(${margin.left},${height})`)
-      .style("stroke-opacity", "0.1")
-      // .attr("stroke", "black")
-      .call(xAxis);
+    const xAxis = axisBottom(xScale);
+    svg.select(".x-axis").attr("transform", `translate(0, ${height})`).call(xAxis);
+
+    // svg
+    //   .select(".x-axis")
+    //   .attr("transform", `translate(${margin.left},${height})`)
+    //   .style("stroke-opacity", "0.1")
+    //   // .attr("stroke", "black")
+    //   .call(xAxis);
 
     svg
       .select(".y-axis")
@@ -55,7 +73,20 @@ function Axis(props) {
       .style("stroke-opacity", "0.1")
       // .attr("stroke", "black")
       .call(yAxis);
-  });
+
+    const zoomBehavior = zoom()
+      .scaleExtent([0.5, 5])
+      .translateExtent([
+        [0, 0],
+        [width, height],
+      ])
+      .on("zoom", (event) => {
+        const zoomState = event.transform;
+        setCurrentZoomState(zoomState);
+        console.log(zoomState);
+      });
+    svg.call(zoomBehavior);
+  }, [currentZoomState]);
 
   // // const y0AxisElement =
   // svg
@@ -107,7 +138,7 @@ function Axis(props) {
         <g className="y-axis" />
         <g className="x-axis0" />
         <g className="y-axis0" />
-        {/* <path d="M0,150 100,100,150,120" stroke="blue" fill="none"></path> */}
+        <path d="M0,150 100,100,150,120" stroke="blue" fill="none"></path>
       </svg>
     </React.Fragment>
 
